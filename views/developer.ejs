@@ -1,0 +1,28 @@
+<%- include('partials/header') %>
+
+<section class="page-hero">
+  <div class="container dev-hero">
+    <span class="dev-logo dev-logo-lg"><%= developer.logo %></span>
+    <div>
+      <span class="eyebrow">Verified Developer</span>
+      <h1 class="page-title"><%= developer.name %></h1>
+      <p class="page-lead"><%= developer.city %>, <%= developer.state %> · Since <%= developer.since %> · ★ <%= developer.rating.toFixed(1) %></p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <p class="dev-blurb dev-blurb-page"><%= developer.blurb %></p>
+    <div class="section-head">
+      <div><h2 class="section-title">Listings by <%= developer.name %></h2></div>
+    </div>
+    <div class="card-grid">
+      <% properties.forEach(function(p){ %>
+        <%- include('partials/property-card', { property: p }) %>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

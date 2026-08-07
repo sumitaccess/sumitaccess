@@ -1,0 +1,27 @@
+<%
+  const p = typeof property !== 'undefined' ? property : null;
+  if (p) {
+    const typeLabel = { plot: 'Plot', flat: 'Apartment', villa: 'Villa', commercial: 'Commercial' }[p.type] || p.type;
+%>
+<article class="card property-card" data-type="<%= p.type %>">
+  <a class="card-media" href="/contact?property=<%= p.id %>" aria-label="Enquire about <%= p.title %>">
+    <img src="<%= p.images && p.images[0] ? p.images[0] : '/images/hero-aerial.jpg' %>" alt="<%= p.title %>" loading="lazy" />
+    <span class="badge badge-verified">✓ Verified</span>
+    <span class="badge badge-type"><%= typeLabel %></span>
+  </a>
+  <div class="card-body">
+    <div class="card-loc"><%= p.city %>, <%= p.state %></div>
+    <h3 class="card-title"><%= p.title %></h3>
+    <div class="card-meta">
+      <span><%= p.area.toLocaleString('en-IN') %> <%= p.areaUnit %></span>
+      <% if (p.bedrooms) { %><span>· <%= p.bedrooms %> BHK</span><% } %>
+      <span>· <%= p.developerName %></span>
+    </div>
+    <div class="card-price"><%= formatPrice(p.price) %></div>
+    <div class="card-actions">
+      <a class="btn btn-outline btn-sm" href="/contact?property=<%= p.id %>">Enquire</a>
+      <button class="save-btn" data-id="<%= p.id %>" type="button" aria-label="Save property" title="Save">♡</button>
+    </div>
+  </div>
+</article>
+<% } %>

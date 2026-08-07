@@ -1,0 +1,42 @@
+<%- include('partials/header') %>
+
+<article class="post">
+  <div class="container post-wrap">
+    <a class="back-link" href="/blog">← Back to Journal</a>
+    <span class="eyebrow"><%= post.author %></span>
+    <h1 class="post-title"><%= post.title %></h1>
+    <p class="post-date"><%= new Date(post.date).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}) %></p>
+    <div class="post-cover">
+      <img src="<%= post.cover %>" alt="<%= post.title %>" />
+    </div>
+    <div class="post-body">
+      <% post.body.split('\n\n').forEach(function(para){ %>
+        <p><%= para %></p>
+      <% }) %>
+    </div>
+  </div>
+</article>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <div><h2 class="section-title">Keep reading</h2></div>
+    </div>
+    <div class="card-grid">
+      <% related.forEach(function(post){ %>
+        <a class="card blog-card" href="/blog/<%= post.slug %>">
+          <div class="card-media">
+            <img src="<%= post.cover %>" alt="<%= post.title %>" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div class="card-loc"><%= new Date(post.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %></div>
+            <h3 class="card-title"><%= post.title %></h3>
+            <p class="card-excerpt"><%= post.excerpt %></p>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

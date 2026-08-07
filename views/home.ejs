@@ -1,0 +1,171 @@
+<%- include('partials/header') %>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg" style="background-image:url('/images/hero-aerial.jpg')"></div>
+  <div class="hero-overlay"></div>
+  <div class="container hero-content">
+    <span class="eyebrow">India’s Verified Property Marketplace</span>
+    <h1 class="hero-title">Land you can trust.<br /><span class="gold">Verified before you buy.</span></h1>
+    <p class="hero-sub">
+      Bhoomi Trust partners with India’s most trusted developers to bring you legally verified
+      residential plots, apartments, villas and commercial spaces — RERA &amp; DTCP approved,
+      with clear titles and bank-loan eligibility.
+    </p>
+    <div class="hero-cta">
+      <a href="/buy-plot" class="btn btn-gold btn-lg">Browse Verified Plots</a>
+      <a href="/contact" class="btn btn-outline-light btn-lg">Talk to an Advisor</a>
+    </div>
+
+    <ul class="trust-badges" aria-label="Trust badges">
+      <li><span class="tb-icon">✓</span> RERA Verified</li>
+      <li><span class="tb-icon">✓</span> DTCP Approved</li>
+      <li><span class="tb-icon">✓</span> Bank Loan Eligible</li>
+      <li><span class="tb-icon">✓</span> Clear Title</li>
+      <li><span class="tb-icon">✓</span> Legal Verified</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats-band">
+  <div class="container stats-grid">
+    <div class="stat">
+      <div class="stat-num" data-count="<%= stats.developers %>">0</div>
+      <div class="stat-label">Developers</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-count="<%= stats.propertiesSold %>">0</div>
+      <div class="stat-label">Properties Sold</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-count="<%= stats.states %>">0</div>
+      <div class="stat-label">States</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-count="<%= stats.verified %>" data-suffix="%">0</div>
+      <div class="stat-label">Verified</div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Handpicked</span>
+        <h2 class="section-title">Featured Verified Properties</h2>
+      </div>
+      <a href="/buy-plot" class="btn btn-outline btn-sm">View all</a>
+    </div>
+    <div class="card-grid">
+      <% featured.forEach(function(p){ %>
+        <%- include('partials/property-card', { property: p }) %>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- Verification process -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head center">
+      <div>
+        <span class="eyebrow">How we protect you</span>
+        <h2 class="section-title">Our 5-Step Verification</h2>
+        <p class="section-lead">Every listing passes legal and regulatory checks before it reaches you.</p>
+      </div>
+    </div>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Title Check</h3>
+        <p>Revenue and encumbrance records verified for a clear, marketable title.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>RERA / DTCP</h3>
+        <p>Project and layout approvals validated against regulatory databases.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Legal Audit</h3>
+        <p>Independent legal review of documents by our verification team.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3>Bank Eligibility</h3>
+        <p>Confirmed home-loan eligibility with leading financial institutions.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <h3>Advisor Match</h3>
+        <p>A dedicated advisor guides you from shortlist to registry.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Developers -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Trusted partners</span>
+        <h2 class="section-title">Verified Developers</h2>
+      </div>
+      <a href="/developers" class="btn btn-outline btn-sm">All developers</a>
+    </div>
+    <div class="dev-grid">
+      <% developers.forEach(function(d){ %>
+        <a class="dev-card" href="/developer/<%= d.id %>">
+          <span class="dev-logo"><%= d.logo %></span>
+          <h3><%= d.name %></h3>
+          <p><%= d.city %>, <%= d.state %></p>
+          <span class="dev-rating">★ <%= d.rating.toFixed(1) %></span>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- Blog preview -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Insights</span>
+        <h2 class="section-title">From the Bhoomi Journal</h2>
+      </div>
+      <a href="/blog" class="btn btn-outline btn-sm">Read all</a>
+    </div>
+    <div class="card-grid">
+      <% posts.forEach(function(post){ %>
+        <a class="card blog-card" href="/blog/<%= post.slug %>">
+          <div class="card-media">
+            <img src="<%= post.cover %>" alt="<%= post.title %>" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div class="card-loc"><%= new Date(post.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %></div>
+            <h3 class="card-title"><%= post.title %></h3>
+            <p class="card-excerpt"><%= post.excerpt %></p>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band">
+  <div class="container cta-inner">
+    <div>
+      <h2>Ready to find land you can trust?</h2>
+      <p>Talk to a Bhoomi Trust advisor today — free, no-obligation guidance.</p>
+    </div>
+    <a href="/contact" class="btn btn-gold btn-lg">Enquire Now</a>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

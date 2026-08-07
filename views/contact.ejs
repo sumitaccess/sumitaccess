@@ -1,0 +1,57 @@
+<%- include('partials/header') %>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">We’re here to help</span>
+    <h1 class="page-title">Contact an Advisor</h1>
+    <p class="page-lead">Tell us what you’re looking for. A Bhoomi Trust advisor will reach out shortly — free and no-obligation.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container contact-grid">
+    <div class="contact-info">
+      <h2 class="section-title">Talk to us</h2>
+      <ul class="info-list">
+        <li><span>✉</span> hello@bhoomitrust.com</li>
+        <li><span>☏</span> +91 80000 12345</li>
+        <li><span>⚲</span> Bhoomi Trust Advisory, 100 Feet Road, Bengaluru, Karnataka</li>
+      </ul>
+      <div class="trust-badges vertical" aria-label="Trust badges">
+        <span><span class="tb-icon">✓</span> RERA Verified</span>
+        <span><span class="tb-icon">✓</span> DTCP Approved</span>
+        <span><span class="tb-icon">✓</span> Bank Loan Eligible</span>
+        <span><span class="tb-icon">✓</span> Clear Title</span>
+      </div>
+    </div>
+
+    <form class="contact-form" id="enquiryForm" novalidate>
+      <% if (property) { %>
+        <div class="enquiry-for">Enquiring about: <strong><%= property.title %></strong> — <%= property.city %>, <%= property.state %></div>
+        <input type="hidden" name="propertyId" value="<%= propertyId %>" />
+      <% } %>
+      <div class="form-row">
+        <label for="name">Full name *</label>
+        <input type="text" id="name" name="name" required placeholder="Your name" />
+      </div>
+      <div class="form-row two">
+        <div>
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" required placeholder="you@email.com" />
+        </div>
+        <div>
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" placeholder="+91 ..." />
+        </div>
+      </div>
+      <div class="form-row">
+        <label for="message">Message *</label>
+        <textarea id="message" name="message" rows="5" required placeholder="Tell us about the property you’re looking for…"><% if (property) { %>I’m interested in <%= property.title %> (<%= property.city %>, <%= property.state %>). Please share more details.<% } %></textarea>
+      </div>
+      <button class="btn btn-gold btn-lg" type="submit">Submit Enquiry</button>
+      <p class="form-note" id="formNote" hidden></p>
+    </form>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

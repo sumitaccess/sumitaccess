@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title : 'Bhoomi Trust' %></title>
+  <meta name="description" content="Bhoomi Trust — India’s trusted marketplace for legally verified residential plots and premium properties from RERA-approved developers." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-inner">
+      <a class="brand" href="/" aria-label="Bhoomi Trust home">
+        <span class="brand-mark">BT</span>
+        <span class="brand-name">Bhoomi<span class="brand-accent">Trust</span></span>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Toggle menu">☰</button>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="/" class="<%= activeNav==='home'?'active':'' %>">Home</a></li>
+          <li><a href="/buy-plot" class="<%= activeNav==='plot'?'active':'' %>">Buy Plot</a></li>
+          <li><a href="/buy-flat" class="<%= activeNav==='flat'?'active':'' %>">Buy Flat</a></li>
+          <li><a href="/villas" class="<%= activeNav==='villa'?'active':'' %>">Villas</a></li>
+          <li><a href="/commercial" class="<%= activeNav==='commercial'?'active':'' %>">Commercial</a></li>
+          <li><a href="/developers" class="<%= activeNav==='developers'?'active':'' %>">Developers</a></li>
+          <li><a href="/about" class="<%= activeNav==='about'?'active':'' %>">About</a></li>
+          <li><a href="/blog" class="<%= activeNav==='blog'?'active':'' %>">Blog</a></li>
+          <li><a href="/contact" class="<%= activeNav==='contact'?'active':'' %>">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <% if (user) { %>
+          <a href="/dashboard" class="btn btn-ghost">My Account</a>
+          <button class="btn btn-ghost" id="logoutBtn" type="button">Logout</button>
+        <% } else { %>
+          <a href="/login" class="btn btn-ghost">Login</a>
+          <a href="/register" class="btn btn-ghost">Register</a>
+        <% } %>
+        <a href="/contact" class="btn btn-gold">Enquire Now</a>
+      </div>
+    </div>
+  </header>
+  <main id="main">

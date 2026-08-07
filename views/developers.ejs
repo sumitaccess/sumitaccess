@@ -1,0 +1,30 @@
+<%- include('partials/header') %>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Trusted partners</span>
+    <h1 class="page-title">Verified Developers</h1>
+    <p class="page-lead">We partner only with RERA-compliant developers who meet our legal and quality standards across India.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="dev-grid dev-grid-lg">
+      <% developers.forEach(function(d){ %>
+        <a class="dev-card dev-card-lg" href="/developer/<%= d.id %>">
+          <span class="dev-logo"><%= d.logo %></span>
+          <h3><%= d.name %></h3>
+          <p class="dev-meta"><%= d.city %>, <%= d.state %> · Since <%= d.since %></p>
+          <p class="dev-blurb"><%= d.blurb %></p>
+          <div class="dev-foot">
+            <span class="dev-rating">★ <%= d.rating.toFixed(1) %></span>
+            <span class="dev-count"><%= d.propertyCount %> listings</span>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
