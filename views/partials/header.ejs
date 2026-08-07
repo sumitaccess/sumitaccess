@@ -31,13 +31,15 @@
           <li><a href="/about" class="<%= activeNav==='about'?'active':'' %>">About</a></li>
           <li><a href="/blog" class="<%= activeNav==='blog'?'active':'' %>">Blog</a></li>
           <li><a href="/contact" class="<%= activeNav==='contact'?'active':'' %>">Contact</a></li>
+          <li class="mobile-auth"><% if (user) { %><a href="/dashboard">My Account</a><% } else { %><a href="/login">Login</a><% } %></li>
+          <li class="mobile-auth"><% if (user) { %><a href="#" class="js-logout">Logout</a><% } else { %><a href="/register">Register</a><% } %></li>
         </ul>
       </nav>
 
       <div class="nav-actions">
         <% if (user) { %>
           <a href="/dashboard" class="btn btn-ghost">My Account</a>
-          <button class="btn btn-ghost" id="logoutBtn" type="button">Logout</button>
+          <button class="btn btn-ghost js-logout" id="logoutBtn" type="button">Logout</button>
         <% } else { %>
           <a href="/login" class="btn btn-ghost">Login</a>
           <a href="/register" class="btn btn-ghost">Register</a>

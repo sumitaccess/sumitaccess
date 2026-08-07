@@ -123,6 +123,7 @@ p { margin: 0 0 1em; }
 
 .nav-actions { display: flex; align-items: center; gap: 10px; }
 .nav-toggle { display: none; background: none; border: 1px solid var(--line); border-radius: 10px; font-size: 20px; width: 42px; height: 42px; cursor: pointer; color: var(--navy); }
+.mobile-auth { display: none; }
 
 /* ---------- Hero ---------- */
 .hero { position: relative; min-height: 88vh; display: flex; align-items: center; overflow: hidden; }
@@ -346,15 +347,16 @@ p { margin: 0 0 1em; }
 }
 
 @media (max-width: 860px) {
-  .nav { order: 3; width: 100%; }
+  .nav { order: 2; margin-left: 0; }
+  .nav-actions { order: 3; margin-left: auto; }
   .nav-toggle { display: block; }
   .nav-menu {
-    display: none; position: absolute; top: 76px; left: 0; right: 0;
+    display: none; position: absolute; top: 100%; left: 0; right: 0;
     flex-direction: column; background: #fff; border-bottom: 1px solid var(--line);
     padding: 12px 24px; gap: 2px; box-shadow: var(--shadow-sm);
+    max-height: 80vh; overflow-y: auto;
   }
   .nav-menu.open { display: flex; }
-  .nav-actions { margin-left: auto; }
   .nav-inner { flex-wrap: wrap; height: auto; padding-top: 12px; padding-bottom: 12px; }
   .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 30px; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -367,6 +369,8 @@ p { margin: 0 0 1em; }
   .filters { grid-template-columns: 1fr; }
   .section { padding: 56px 0; }
   .nav-actions .btn-ghost { display: none; }
+  .mobile-auth { display: block; margin-top: 6px; padding-top: 10px; border-top: 1px solid var(--line); }
+  .mobile-auth a { font-weight: 600; color: var(--navy); }
   .cta-inner { flex-direction: column; align-items: flex-start; }
 }
 

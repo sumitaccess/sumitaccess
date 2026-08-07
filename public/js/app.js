@@ -263,13 +263,14 @@
     });
   }
 
-  const logoutBtn = $('#logoutBtn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async function () {
+  const logoutBtns = $all('.js-logout');
+  logoutBtns.forEach(function (btn) {
+    btn.addEventListener('click', async function (e) {
+      e.preventDefault();
       await api('/api/auth/logout', { method: 'POST' });
       window.location.href = '/';
     });
-  }
+  });
 
   /* ---------- Enquiry form ---------- */
   const enquiryForm = $('#enquiryForm');
