@@ -96,6 +96,8 @@ app.use((req, res, next) => {
 
 /* ----------------------------- Routes ----------------------------- */
 
+app.get('/healthz', (req, res) => res.json({ ok: true, time: Date.now() }));
+
 app.use('/api', apiRouter);
 app.use('/', pagesRouter);
 

@@ -96,3 +96,31 @@ public/
   images/            Generated premium imagery
 data/store.json      Created at runtime (git-ignored)
 ```
+
+## 🚀 Deploy (public hosting)
+
+The app binds `0.0.0.0`, reads `PORT` from the environment, and **self‑seeds on
+first request**, so it runs on any Node host without a build step or database.
+
+### Heroku
+```bash
+heroku create
+git push heroku arena/019fda2d-sumitaccess:main
+```
+(`Procfile` is included.)
+
+### Render
+Connect the repo in the Render dashboard, or push the included `render.yaml`.
+The free web service runs `npm install` → `npm start` with a `/healthz` check.
+
+### Docker / Google Cloud Run / Fly.io / any container platform
+```bash
+docker build -t bhoomi-trust .
+docker run -p 3000:3000 bhoomi-trust
+```
+The image installs only production deps and includes a `HEALTHCHECK`.
+
+> **Note on data:** the JSON store lives on the local filesystem and is seeded
+> automatically. On platforms with ephemeral filesystems (Heroku dynos, etc.) the
+> data resets on restart — fine for a demo. For persistent data, mount a volume
+> or swap `server/db.js` for a managed database.
