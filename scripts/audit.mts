@@ -147,6 +147,7 @@ async function main() {
     ["/register", ["Join SkillSwap", "Create my account"]],
     ["/forgot-password", ["Reset your password"]],
     ["/reset-password", ["Missing reset link"]],
+    ["/verify-email", ["Verify your email"]],
     ["/suspended", ["suspended"]],
     ["/skills", ["Explore every skill"]],
     ...skills.map((s) => [`/skills/${s.slug}`, [s.name]]),

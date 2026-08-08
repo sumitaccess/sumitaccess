@@ -40,6 +40,21 @@ export async function sendEmail(payload: EmailPayload): Promise<void> {
   console.log(`───────────────────────────────────────────────────────\n`);
 }
 
+export async function sendOtpEmail(to: string, name: string, code: string): Promise<void> {
+  await sendEmail({
+    to,
+    subject: "Your SkillSwap verification code",
+    text: `Hi ${name},\n\nYour SkillSwap verification code is:\n\n${code}\n\nIt expires in 10 minutes. If you didn't create a SkillSwap account, you can safely ignore this email.\n\n— The SkillSwap team`,
+    html: `<div style="font-family:Inter,system-ui,sans-serif;max-width:480px;margin:0 auto">
+      <h2 style="font-size:20px;margin-bottom:8px">Verify your email</h2>
+      <p>Hi ${name},</p>
+      <p>Your SkillSwap verification code is:</p>
+      <p style="font-size:32px;font-weight:800;letter-spacing:8px;color:#4f46e5;margin:16px 0">${code}</p>
+      <p style="color:#6b7280;font-size:13px">This code expires in 10 minutes. If you didn't create a SkillSwap account, you can safely ignore this email.</p>
+    </div>`,
+  });
+}
+
 export async function sendPasswordResetEmail(to: string, name: string, token: string): Promise<void> {
   const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
   const link = `${baseUrl}/reset-password?token=${encodeURIComponent(token)}`;

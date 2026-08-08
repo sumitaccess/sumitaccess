@@ -10,6 +10,10 @@ export interface User {
   passwordHash: string | null;
   resetToken: string | null;
   resetTokenExpiry: string | null;
+  otpHash: string | null;
+  otpExpiry: string | null;
+  otpAttempts: number;
+  emailVerified: string | null;
   image: string | null;
   bio: string | null;
   headline: string | null;
@@ -31,7 +35,7 @@ export interface User {
   lastActiveAt: string | null;
 }
 
-export type SafeUser = Omit<User, "email" | "passwordHash" | "resetToken" | "resetTokenExpiry"> & { email?: string };
+export type SafeUser = Omit<User, "email" | "passwordHash" | "resetToken" | "resetTokenExpiry" | "otpHash" | "otpExpiry" | "otpAttempts" | "emailVerified"> & { email?: string };
 
 export interface Skill {
   id: string;

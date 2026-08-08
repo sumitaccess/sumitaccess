@@ -9,6 +9,7 @@ import { z } from "zod";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { Button, Field, Input } from "@/components/ui";
 import { toastError, toastSuccess } from "@/components/toasts";
+import { get, post } from "@/lib/client";
 
 const schema = z.object({
   email: z.string().email("Enter a valid email."),
@@ -23,6 +24,7 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [demoLoading, setDemoLoading] = React.useState(false);
+  const [verifyPending, setVerifyPending] = React.useState<string | null>(null);
 
   const {
     register,
@@ -35,6 +37,16 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
     const res = await signIn("credentials", { redirect: false, email: values.email, password: values.password });
     setLoading(false);
     if (res?.error) {
+      // Distinguish "verify your email first" from a bad password.
+      try {
+        const status = await get<{ userExists: boolean; emailVerified: boolean }>(`/api/auth/status?email=${encodeURIComponent(values.email)}`);
+        if (status.userExists && !status.emailVerified) {
+          setVerifyPending(values.email);
+          return;
+        }
+      } catch {
+        // fall through to the generic message
+      }
       toastError("Couldn't sign you in", "Check your email and password, or try resetting your password.");
       return;
     }
@@ -57,6 +69,28 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
 
   return (
     <div className="space-y-4">
+      {verifyPending && (
+        <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
+          <p className="font-bold text-amber-700 dark:text-amber-400">Verify your email first</p>
+          <p className="mt-0.5 text-amber-700/80 dark:text-amber-400/80">
+            Your password is correct, but this account hasn't been verified yet. We'll send a code to{" "}
+            <span className="font-semibold">{verifyPending}</span>.
+          </p>
+          <div className="mt-3 flex gap-2">
+            <Button
+              size="sm"
+              onClick={() => {
+                void post("/api/auth/resend-otp", { email: verifyPending }).then(() => {
+                  router.push(`/verify-email?email=${encodeURIComponent(verifyPending)}`);
+                });
+              }}
+            >
+              Send code
+            </Button>
+            <Button size="sm" variant="ghost" onClick={() => setVerifyPending(null)}>Cancel</Button>
+          </div>
+        </div>
+      )}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
         <Field label="Email" htmlFor="email" error={errors.email?.message}>
           <Input id="email" type="email" autoComplete="email" placeholder="you@example.com" {...register("email")} />

@@ -33,6 +33,21 @@ db.exec("PRAGMA journal_mode = WAL;");
 export function applySchema(): void {
   const sql = fs.readFileSync(path.join(projectRoot, "db", "schema.sql"), "utf8");
   db.exec(sql);
+  migrate();
+}
+
+/**
+ * Idempotent migrations for databases created before a column existed.
+ * (SQLite has no ADD COLUMN IF NOT EXISTS, so we check PRAGMA table_info.)
+ */
+function migrate(): void {
+  const columns = db.prepare("PRAGMA table_info(users)").all().map((r) => (r as { name: string }).name);
+  const addCol = (name: string, ddl: string) => {
+    if (!columns.includes(name)) db.exec(`ALTER TABLE users ADD COLUMN ${ddl}`);
+  };
+  addCol("otp_hash", "otp_hash TEXT");
+  addCol("otp_expiry", "otp_expiry TEXT");
+  addCol("otp_attempts", "otp_attempts INTEGER NOT NULL DEFAULT 0");
 }
 
 // ---------------------------------------------------------------------------

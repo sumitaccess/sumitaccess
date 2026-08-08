@@ -4,6 +4,7 @@ import { z } from "zod";
 import { createUser, getUserByEmail, safeUserWithEmail } from "@/lib/users";
 import { STARTER_CREDITS } from "@/lib/constants";
 import { awardCredits } from "@/lib/credits";
+import { issueOtp } from "@/lib/otp";
 import { ApiError, fail, ok, readBody } from "@/lib/api";
 
 const registerSchema = z.object({
@@ -27,10 +28,19 @@ export async function POST(req: Request) {
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
+    // New accounts start unverified — an OTP email activates them.
     const user = createUser({ name, email, passwordHash });
     awardCredits(user.id, STARTER_CREDITS, "BONUS", "Welcome to SkillSwap — 3 starter credits 🎉");
+    issueOtp(email);
 
-    return ok({ user: safeUserWithEmail(user), starterCredits: STARTER_CREDITS }, { status: 201 });
+    return ok(
+      {
+        user: safeUserWithEmail(user),
+        starterCredits: STARTER_CREDITS,
+        verificationRequired: true,
+      },
+      { status: 201 },
+    );
   } catch (err) {
     if (err instanceof ApiError) return fail(err.code, err.message, err.status);
     console.error("register:", err);

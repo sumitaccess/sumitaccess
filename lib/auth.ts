@@ -2,7 +2,7 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
-import { createUser, getUserByEmail, getUserById, touchUser } from "./users";
+import { createUser, getUserByEmail, getUserById, touchUser, updateUser } from "./users";
 import { newId, nowIso } from "./ids";
 import { STARTER_CREDITS } from "./constants";
 import { awardCredits } from "./credits";
@@ -26,6 +26,8 @@ export const authOptions: NextAuthOptions = {
         if (!user.passwordHash) return null;
         const valid = await bcrypt.compare(credentials.password, user.passwordHash);
         if (!valid) return null;
+        // Email verification is required before the first sign-in.
+        if (!user.emailVerified) return null;
         touchUser(user.id);
         return { id: user.id, name: user.name, email: user.email, image: user.image };
       },
@@ -54,6 +56,10 @@ export const authOptions: NextAuthOptions = {
           awardCredits(dbUser.id, STARTER_CREDITS, "BONUS", "Welcome to SkillSwap — 3 starter credits 🎉");
         } else if (dbUser.status === "SUSPENDED") {
           return false;
+        }
+        // Google already verified this email — mark the account verified.
+        if (!dbUser.emailVerified) {
+          updateUser(dbUser.id, { emailVerified: nowIso() });
         }
         // Propagate the DB id through the token.
         user.id = dbUser.id;

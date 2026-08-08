@@ -13,7 +13,7 @@ Built to feel like a funded startup product: the visual quality of Linear, the c
 ### Core (P0) — fully implemented
 | Area | Details |
 |---|---|
-| Authentication | Email/password (bcrypt + Auth.js), Google OAuth (optional), JWT sessions, password reset via email architecture (Resend-compatible), account suspension |
+| Authentication | Email/password (bcrypt + Auth.js), Google OAuth (optional), JWT sessions, password reset via email architecture (Resend-compatible), account suspension, **email OTP verification** (6-digit code, 10-min expiry, hashed + timing-safe compare, 5-attempt lockout, 60s resend cooldown — login is blocked until verified) |
 | Onboarding | 6-step wizard: teach skills → learn skills → experience → availability → location/timezone → photo & bio |
 | Profiles | Public premium profile: header, bio, skills (teach/learn + levels), availability, reviews, achievements, verified badge |
 | Skills | 45-skill curated catalogue across 11 categories; public SEO skill pages (`/skills/python`) |
@@ -88,7 +88,7 @@ Copy `.env.example` → `.env`. Everything works with defaults; add `GOOGLE_CLIE
 
 ```
 app/
-  (auth)/               # login, register, forgot/reset password
+  (auth)/               # login, register, forgot/reset password, verify-email (OTP)
   (app)/                # authenticated app shell
     dashboard/ discover/ messages/ sessions/ wallet/ notifications/ settings/ admin/
   api/                  # 30+ route handlers (auth, users, skills, matches, sessions,

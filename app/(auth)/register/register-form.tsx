@@ -34,10 +34,15 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
   const onSubmit = async (values: FormValues) => {
     setLoading(true);
     try {
-      await post("/api/register", { name: values.name, email: values.email, password: values.password });
+      const res = await post<{ verificationRequired: boolean }>("/api/register", { name: values.name, email: values.email, password: values.password });
+      if (res.verificationRequired) {
+        toastSuccess("Account created 🎉", "We sent a 6-digit code to your email — verify to activate your account.");
+        router.push(`/verify-email?email=${encodeURIComponent(values.email)}`);
+        return;
+      }
       toastSuccess("Account created 🎉", "You're one step from your first swap.");
-      const res = await signIn("credentials", { redirect: false, email: values.email, password: values.password });
-      if (res?.error) {
+      const signInRes = await signIn("credentials", { redirect: false, email: values.email, password: values.password });
+      if (signInRes?.error) {
         router.push("/login");
         return;
       }

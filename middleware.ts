@@ -6,7 +6,15 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 
-const RATE_LIMITED_PATHS = ["/api/auth/callback", "/api/register", "/api/forgot-password", "/api/reset-password", "/api/login"];
+const RATE_LIMITED_PATHS = [
+  "/api/auth/callback",
+  "/api/register",
+  "/api/forgot-password",
+  "/api/reset-password",
+  "/api/auth/verify-otp",
+  "/api/auth/resend-otp",
+  "/api/login",
+];
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 15;
 

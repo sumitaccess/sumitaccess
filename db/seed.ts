@@ -316,7 +316,7 @@ function main(): void {
     role: "ADMIN",
     timezone: "Asia/Kolkata",
   });
-  run("UPDATE users SET verified = 1, headline = 'Platform Admin', location = 'Bengaluru, India' WHERE id = ?", [admin.id]);
+  run("UPDATE users SET verified = 1, headline = 'Platform Admin', location = 'Bengaluru, India', email_verified = created_at WHERE id = ?", [admin.id]);
   userObjs[admin.id] = admin;
   userIds["admin"] = admin.id;
 
@@ -335,6 +335,8 @@ function main(): void {
     // by real uploads in production).
     const avatarUrl = writeAvatar(user.username, user.name, idx + 1);
     run("UPDATE users SET image = ? WHERE id = ?", [avatarUrl, user.id]);
+    // Seeded demo accounts are pre-verified so demo logins work immediately.
+    run("UPDATE users SET email_verified = created_at WHERE id = ?", [user.id]);
     run(
       `UPDATE users SET bio = ?, headline = ?, location = ?, languages = ?, availability = ?, online_pref = ?,
               verified = ?, rating = ?, total_reviews = ?, completed_sessions = ?, hours_taught = ?, credits = ?,

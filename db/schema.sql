@@ -32,6 +32,9 @@ CREATE TABLE IF NOT EXISTS users (
   reset_token        TEXT,
   reset_token_expiry TEXT,
   email_verified     TEXT,
+  otp_hash           TEXT,
+  otp_expiry         TEXT,
+  otp_attempts       INTEGER NOT NULL DEFAULT 0,
   last_active_at     TEXT,
   created_at         TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
   updated_at         TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
