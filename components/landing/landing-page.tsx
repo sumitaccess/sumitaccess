@@ -135,8 +135,8 @@ function Hero() {
             className="mt-8 flex items-center justify-center gap-3 text-sm text-muted-foreground lg:justify-start"
           >
             <div className="flex -space-x-2">
-              {[9, 32, 44, 65, 11].map((n, i) => (
-                <Avatar key={i} src={`https://randomuser.me/api/portraits/${i % 2 ? "women" : "men"}/${n}.jpg`} name="Member" size="sm" ring />
+              {["meera-krishnan", "rohan-mehta", "isabella-rossi", "aarav-sharma", "priya-patel"].map((u) => (
+                <Avatar key={u} src={`/avatars/${u}.svg`} name="Member" size="sm" ring />
               ))}
             </div>
             <span>
@@ -425,9 +425,9 @@ function Trust({ fade }: { fade: object }) {
 
 function Testimonials({ fade }: { fade: object }) {
   const items = [
-    { name: "Meera Krishnan", role: "Analytics lead · Bengaluru", quote: "I learned QGIS from Sumit and taught him SQL in return. Two hours, two new skills, zero money. This app is magic.", avatar: "https://randomuser.me/api/portraits/women/68.jpg" },
-    { name: "Rohan Mehta", role: "Frontend engineer", quote: "I teach React three nights a week and trade credits for guitar lessons. My code and my chord changes both got better.", avatar: "https://randomuser.me/api/portraits/men/22.jpg" },
-    { name: "Isabella Rossi", role: "Product designer · London", quote: "Found a Spanish coach, a yoga teacher and a whole community of curious people. SkillSwap feels like the internet's friendly corner.", avatar: "https://randomuser.me/api/portraits/women/28.jpg" },
+    { name: "Meera Krishnan", role: "Analytics lead · Bengaluru", quote: "I learned QGIS from Sumit and taught him SQL in return. Two hours, two new skills, zero money. This app is magic.", avatar: "/avatars/meera-krishnan.svg" },
+    { name: "Rohan Mehta", role: "Frontend engineer", quote: "I teach React three nights a week and trade credits for guitar lessons. My code and my chord changes both got better.", avatar: "/avatars/rohan-mehta.svg" },
+    { name: "Isabella Rossi", role: "Product designer · London", quote: "Found a Spanish coach, a yoga teacher and a whole community of curious people. SkillSwap feels like the internet's friendly corner.", avatar: "/avatars/isabella-rossi.svg" },
   ];
   return (
     <section className="border-t border-border bg-card/30">

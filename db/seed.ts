@@ -15,6 +15,7 @@ import { AVAILABILITY_PRESETS, SKILL_CATALOGUE, STARTER_CREDITS } from "../lib/c
 import { createUser, getSkillsForUsers } from "../lib/users";
 import { computeMatch } from "../lib/matching";
 import { addMinutes } from "../lib/utils";
+import { writeAvatar } from "./avatars";
 import type { Skill, User } from "../types";
 
 const DEMO_PASSWORD = process.env.DEMO_PASSWORD || "demo1234";
@@ -320,7 +321,7 @@ function main(): void {
   userIds["admin"] = admin.id;
 
   const now = nowIso();
-  for (const u of USERS) {
+  for (const [idx, u] of USERS.entries()) {
     const isDemo = u.email === "demo@skillswap.app";
     const password = isDemo ? DEMO_PASSWORD : SEED_PASSWORD;
     const user = createUser({
@@ -330,6 +331,10 @@ function main(): void {
       image: u.avatar,
       timezone: u.timezone,
     });
+    // Local generated avatar (offline-safe; external avatar CDNs are replaced
+    // by real uploads in production).
+    const avatarUrl = writeAvatar(user.username, user.name, idx + 1);
+    run("UPDATE users SET image = ? WHERE id = ?", [avatarUrl, user.id]);
     run(
       `UPDATE users SET bio = ?, headline = ?, location = ?, languages = ?, availability = ?, online_pref = ?,
               verified = ?, rating = ?, total_reviews = ?, completed_sessions = ?, hours_taught = ?, credits = ?,
