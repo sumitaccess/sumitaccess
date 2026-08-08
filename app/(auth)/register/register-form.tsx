@@ -58,7 +58,7 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
       <Field label="Email" htmlFor="email" error={errors.email?.message}>
         <Input id="email" type="email" autoComplete="email" placeholder="you@example.com" {...register("email")} />
       </Field>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid gap-3 sm:grid-cols-2">
         <Field label="Password" htmlFor="password" error={errors.password?.message}>
           <Input id="password" type="password" autoComplete="new-password" placeholder="Min. 8 characters" {...register("password")} />
         </Field>

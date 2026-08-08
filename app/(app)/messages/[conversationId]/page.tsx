@@ -23,7 +23,10 @@ export default async function ChatPage({ params }: { params: { conversationId: s
   if (!other) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 top-16 z-30 bg-background lg:static lg:z-auto lg:block lg:h-[calc(100vh-7rem)] lg:bg-transparent">
+    // On mobile this becomes a full-screen chat that sits ABOVE the bottom
+    // navigation (bottom-[68px] ≈ nav height + safe area); on lg it returns
+    // to the normal in-page layout beside the conversation list.
+    <div className="fixed inset-x-0 bottom-[68px] top-16 z-30 bg-background lg:static lg:bottom-auto lg:z-auto lg:block lg:h-[calc(100vh-7rem)] lg:bg-transparent">
       <div className="flex h-full gap-4">
         <div className="hidden w-80 shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-soft lg:block">
           <ConversationListClient activeId={params.conversationId} />

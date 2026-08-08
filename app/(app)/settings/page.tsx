@@ -96,15 +96,6 @@ export default function SettingsPage() {
     }
   };
 
-  if (!profile || !skills) {
-    return (
-      <div className="space-y-4">
-        <Skeleton className="h-40 rounded-2xl" />
-        <Skeleton className="h-72 rounded-2xl" />
-      </div>
-    );
-  }
-
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <div>
@@ -112,6 +103,13 @@ export default function SettingsPage() {
         <p className="mt-1 text-sm text-muted-foreground">Make your profile work harder for your swaps.</p>
       </div>
 
+      {!profile || !skills ? (
+        <div className="space-y-4">
+          <Skeleton className="h-40 rounded-2xl" />
+          <Skeleton className="h-72 rounded-2xl" />
+        </div>
+      ) : (
+        <>
       {/* Profile */}
       <Card className="p-6">
         <h2 className="mb-5 flex items-center gap-2 font-display text-base font-bold">
@@ -262,6 +260,8 @@ export default function SettingsPage() {
           </Button>
         </div>
       </Card>
+        </>
+      )}
     </div>
   );
 }

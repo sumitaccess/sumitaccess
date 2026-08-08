@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
   Home, Compass, MessageCircle, CalendarDays, Wallet, Bell, User, Settings,
-  ShieldCheck, LogOut, LayoutDashboard, ChevronDown, Sparkles,
+  ShieldCheck, LogOut, LayoutDashboard, ChevronDown, Sparkles, Search,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Avatar, Badge } from "../ui";
@@ -96,6 +96,7 @@ export function AppShell({ user, children }: { user: ClientUser; children: React
               className="flex w-full items-center gap-2.5 rounded-xl p-2 text-left transition-colors hover:bg-secondary"
               aria-haspopup="menu"
               aria-expanded={menuOpen}
+              aria-label={`Account menu for ${user.name}`}
             >
               <Avatar src={user.image} name={user.name} size="sm" />
               <span className="min-w-0 flex-1">
@@ -137,6 +138,13 @@ export function AppShell({ user, children }: { user: ClientUser; children: React
           <GlobalSearch />
         </div>
         <div className="ml-auto flex items-center gap-2">
+          <Link
+            href="/discover"
+            aria-label="Search and discover people"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-background text-muted-foreground shadow-soft transition-colors hover:text-foreground lg:hidden"
+          >
+            <Search size={16} />
+          </Link>
           <Link
             href="/discover"
             className="hidden items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-soft transition-all hover:bg-primary/90 hover:shadow-lift sm:inline-flex"
@@ -199,12 +207,7 @@ export function AppShell({ user, children }: { user: ClientUser; children: React
         </div>
       </nav>
 
-      {/* Mobile search bar above bottom nav */}
-      <div className="fixed inset-x-0 bottom-[68px] z-30 px-4 lg:hidden">
-        <div className="mx-auto max-w-md rounded-xl border border-border bg-card/95 p-1 shadow-lift backdrop-blur">
-          <GlobalSearch />
-        </div>
-      </div>
+      {/* Mobile: search lives on the Discover page (its dropdown needs headroom) */}
     </div>
   );
 }

@@ -25,6 +25,18 @@ interface AdminData {
   reports: (Report & { reporterName: string; reportedName: string })[];
 }
 
+function AdminHeader() {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary"><ShieldCheck size={19} /></span>
+      <div>
+        <h1 className="font-display text-2xl font-extrabold tracking-tight">Admin dashboard</h1>
+        <p className="text-sm text-muted-foreground">Platform overview · {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function AdminPage() {
   const [data, setData] = React.useState<AdminData | null>(null);
   const [tab, setTab] = React.useState("overview");
@@ -38,25 +50,29 @@ export default function AdminPage() {
 
   if (error) {
     return (
-      <div className="rounded-2xl border border-dashed border-border py-20 text-center">
-        <p className="font-display text-base font-bold">Admin access required</p>
-        <p className="mt-1 text-sm text-muted-foreground">Sign in with an admin account to view this page.</p>
+      <div className="space-y-6">
+        <AdminHeader />
+        <div className="rounded-2xl border border-dashed border-border py-20 text-center">
+          <p className="font-display text-base font-bold">Admin access required</p>
+          <p className="mt-1 text-sm text-muted-foreground">Sign in with an admin account to view this page.</p>
+        </div>
       </div>
     );
   }
-  if (!data) return <Skeleton className="h-96 rounded-2xl" />;
+  if (!data) {
+    return (
+      <div className="space-y-6">
+        <AdminHeader />
+        <Skeleton className="h-96 rounded-2xl" />
+      </div>
+    );
+  }
 
   const m = data.metrics;
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary"><ShieldCheck size={19} /></span>
-        <div>
-          <h1 className="font-display text-2xl font-extrabold tracking-tight">Admin dashboard</h1>
-          <p className="text-sm text-muted-foreground">Platform overview · {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}</p>
-        </div>
-      </div>
+      <AdminHeader />
 
       <Tabs
         tabs={[
