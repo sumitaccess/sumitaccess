@@ -66,8 +66,15 @@ export function respondToMatch(matchId: string, actorId: string, action: "ACCEPT
     if (m.userBId !== actorId && m.userAId !== actorId) throw new ApiError("FORBIDDEN", "Not your swap request.", 403);
     if (m.status !== "PENDING") throw new ApiError("INVALID_STATE", "This request has already been handled.", 409);
 
+    // Map the action to the canonical stored status ("ACCEPT" → "ACCEPTED",
+    // "REJECT" → "REJECTED") — the raw action string is not a status.
+    const status: Record<"ACCEPT" | "REJECT" | "BLOCK", string> = {
+      ACCEPT: "ACCEPTED",
+      REJECT: "REJECTED",
+      BLOCK: "BLOCKED",
+    };
     const now = nowIso();
-    run("UPDATE matches SET status = ?, responded_at = ? WHERE id = ?", [action, now, matchId]);
+    run("UPDATE matches SET status = ?, responded_at = ? WHERE id = ?", [status[action], now, matchId]);
 
     const requesterId = m.userAId;
     const responderId = m.userBId;

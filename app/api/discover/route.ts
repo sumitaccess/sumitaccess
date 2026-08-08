@@ -29,7 +29,9 @@ export async function GET(req: Request) {
     const page = Math.max(1, Number(url.searchParams.get("page") ?? 1));
     const pageSize = Math.min(12, Math.max(4, Number(url.searchParams.get("pageSize") ?? 8)));
 
-    const where: string[] = ["u.id != ?", "u.status = 'ACTIVE'", "u.role = 'USER' OR u.role = 'MODERATOR'"];
+    // NOTE: the OR branch must be parenthesised — without it, AND binds tighter
+    // and the whole WHERE silently matches every active user.
+    const where: string[] = ["u.id != ?", "u.status = 'ACTIVE'", "(u.role = 'USER' OR u.role = 'MODERATOR')"];
     const params: (string | number)[] = [viewer.id];
 
     if (q) {
