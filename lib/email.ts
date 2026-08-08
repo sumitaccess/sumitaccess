@@ -55,9 +55,9 @@ export async function sendOtpEmail(to: string, name: string, code: string): Prom
   });
 }
 
-export async function sendPasswordResetEmail(to: string, name: string, token: string): Promise<void> {
-  const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
-  const link = `${baseUrl}/reset-password?token=${encodeURIComponent(token)}`;
+export async function sendPasswordResetEmail(to: string, name: string, token: string, baseUrl?: string | null): Promise<void> {
+  const base = baseUrl || process.env.NEXTAUTH_URL || "http://localhost:3000";
+  const link = `${base}/reset-password?token=${encodeURIComponent(token)}`;
   await sendEmail({
     to,
     subject: "Reset your SkillSwap password",
