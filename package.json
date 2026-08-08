@@ -2,11 +2,11 @@
   "name": "skillswap",
   "version": "1.0.0",
   "private": true,
-  "description": "SkillSwap \u2014 premium peer-to-peer skill exchange marketplace. Teach what you know. Learn what you love.",
+  "description": "SkillSwap — premium peer-to-peer skill exchange marketplace. Teach what you know. Learn what you love.",
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
-    "start": "next start -p 3000",
+    "start": "next start -p ${PORT:-3000}",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "db:init": "tsx db/init.ts",
@@ -37,6 +37,7 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^22.10.7",
     "@types/react": "^18.3.18",
@@ -44,7 +45,9 @@
     "autoprefixer": "^10.4.20",
     "htmlparser2": "^12.0.0",
     "playwright": "^1.62.1",
+    "pngjs": "^7.0.0",
     "postcss": "^8.5.1",
+    "satori": "^0.29.0",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"

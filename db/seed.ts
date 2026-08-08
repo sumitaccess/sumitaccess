@@ -285,8 +285,16 @@ const USERS: UserSeed[] = [
   },
 ];
 
-function main(): void {
+export function seedDatabase(force = false): void {
   applySchema();
+  if (!force) {
+    const { get } = require("../lib/db");
+    const existing = get("SELECT COUNT(*) AS n FROM users");
+    if (Number(existing?.n ?? 0) > 0) {
+      console.log("Database already has data — skipping seed.");
+      return;
+    }
+  }
   wipe();
 
   // ------------------------------------------------------------------ skills
@@ -658,4 +666,6 @@ function zaraOr(): User { return getUserByEmailOrThrow("zara@example.com"); }
 function jamesOr(): User { return getUserByEmailOrThrow("james@example.com"); }
 function emilyOr(): User { return getUserByEmailOrThrow("emily@example.com"); }
 
-main();
+if (require.main === module) {
+  seedDatabase(true);
+}

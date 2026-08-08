@@ -78,6 +78,12 @@ npm run build && npm run start
 
 Use the **"Try the demo account"** button on `/login` for a one-click demo login.
 
+### Deploy on Render.com
+
+The repo ships a `render.yaml` Blueprint — the app is self-initialising (it
+applies the DB schema and seeds demo data on first boot), so deployment needs
+zero manual setup. Full instructions: see **RENDER.md**.
+
 ### Environment
 
 Copy `.env.example` → `.env`. Everything works with defaults; add `GOOGLE_CLIENT_ID/SECRET` to enable Google sign-in and `RESEND_API_KEY` to send real emails (otherwise emails are logged to the console in dev).
