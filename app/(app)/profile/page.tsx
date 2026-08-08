@@ -1,9 +1,0 @@
-import { redirect } from "next/navigation";
-import { getCurrentUser } from "@/lib/session";
-
-export const dynamic = "force-dynamic";
-
-export default async function ProfileRedirectPage() {
-  const user = await getCurrentUser();
-  redirect(user ? `/users/${user.username}` : "/login");
-}
