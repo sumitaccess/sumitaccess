@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: deluxe-saloon
+    runtime: static
+    repo: https://github.com/sumitaccess/sumitaccess
+    branch: arena/019ff45d-sumitaccess
+    buildCommand: echo "static site, no build"
+    staticPublishPath: public
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=300
