@@ -2,7 +2,7 @@ services:
   - type: web
     name: deluxe-saloon
     runtime: static
-    repo: https://github.com/sumitaccess/sumitaccess
+    repo: https://github.com/sumitaccess/deluxe-saloon
     branch: arena/019ff45d-sumitaccess
     buildCommand: echo "static site, no build"
     staticPublishPath: public

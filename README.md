@@ -12,7 +12,7 @@ This is a **static site**. Files in `public/` are already production-ready (no `
 
 1. Sign in at [dashboard.render.com](https://dashboard.render.com) with GitHub.
 2. **New → Static Site**.
-3. Connect the repo `sumitaccess/sumitaccess`.
+3. Connect the repo `sumitaccess/deluxe-saloon`.
 4. Fill in:
    - **Branch:** `arena/019ff45d-sumitaccess` (or `main` after you merge)
    - **Build Command:** `echo "static site, no build"`
