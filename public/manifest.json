@@ -1,0 +1,9 @@
+{
+  "name": "Deluxe Saloon",
+  "short_name": "सैलून",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#1a0a07",
+  "theme_color": "#3b120c",
+  "icons": [{ "src": "./icon.png", "sizes": "512x512", "type": "image/png" }]
+}

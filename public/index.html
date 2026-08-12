@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Deluxe Saloon — an ambient street-corner radio</title>
+  <meta name="description" content="Pull up a chair at the Deluxe Saloon: always-on radio of cassette-era Hindi film songs over an illustrated Indian street corner." />
+  <meta name="theme-color" content="#3b120c" />
+  <link rel="icon" href="./icon.png" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Sans:wght@400;500&family=Noto+Sans+Devanagari:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="scene">
+    <img class="backdrop" src="./saloon-backdrop.jpg" alt="Red street-side barbershop in a small Indian town" />
+    <div class="vignette"></div>
+  </div>
+
+  <header class="mast">
+    <p class="kicker">Deluxe Saloon · open all hours</p>
+    <h1>डीलक्स सैलून</h1>
+    <p class="live" id="live"><span class="dot"></span> <span id="live-text">tuning the radio…</span></p>
+  </header>
+
+  <nav class="tabs">
+    <button data-view="radio" class="on">Radio</button>
+    <button data-view="playlists">Rotations</button>
+    <button data-view="songs">Songs</button>
+  </nav>
+
+  <main>
+    <section id="view-radio" class="panel on">
+      <p class="lede">
+        90s Hindi film songs, playing round the clock — the kind of tape that never stops
+        at a neighbourhood barber shop. Also written “Deluxe Salon”, though the board
+        outside almost always reads <em>saloon</em>.
+      </p>
+      <article class="now-card" id="now-card">
+        <div class="thumb-wrap">
+          <img id="thumb" alt="" />
+          <button type="button" id="play-big" aria-label="Play">▶</button>
+        </div>
+        <div>
+          <p class="rot-label" id="rot-label"></p>
+          <h2 id="now-title">Tuning in…</h2>
+          <p id="now-meta"></p>
+        </div>
+      </article>
+    </section>
+
+    <section id="view-playlists" class="panel">
+      <h2 class="section-hi">रोटेशन</h2>
+      <p class="lede">The station picks a rotation by the hour in India.</p>
+      <div id="plist" class="plist"></div>
+    </section>
+
+    <section id="view-songs" class="panel">
+      <h2 class="section-hi">सारे गाने</h2>
+      <ol id="songlist" class="songlist"></ol>
+    </section>
+  </main>
+
+  <aside class="player" id="player-bar">
+    <div id="yt"></div>
+    <button type="button" id="toggle" class="round">▶</button>
+    <div class="meta">
+      <strong id="bar-title">Deluxe Saloon radio</strong>
+      <span id="bar-sub">0:00 / 0:00</span>
+    </div>
+    <input type="range" id="seek" min="0" max="100" value="0" />
+  </aside>
+
+  <footer>
+    <a href="mailto:kumarsinghu0@gmail.com">contact: kumarsinghu0@gmail.com</a>
+    <span>Homage to deluxesalon.in · cassette-era radio</span>
+  </footer>
+
+  <div class="install" id="install" hidden>
+    <img src="./icon.png" alt="" width="40" height="40" />
+    <div>
+      <strong>Install Deluxe Saloon</strong>
+      <span>Full-screen app, no app store.</span>
+    </div>
+    <button type="button" id="install-btn">Install</button>
+  </div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

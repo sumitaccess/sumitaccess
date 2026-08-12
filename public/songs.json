@@ -1,0 +1,72 @@
+{
+  "rotations": [
+    {
+      "id": "highway-raat",
+      "hi": "हाईवे रात",
+      "en": "Highway Raat",
+      "hours": "22:00–05:00 IST",
+      "start": 22,
+      "end": 5,
+      "blurb": "Late-night listening for long empty roads — distance, separation and letters from home."
+    },
+    {
+      "id": "shaadi-sunday",
+      "hi": "शादी और इतवार",
+      "en": "Shaadi & Sunday",
+      "hours": "05:00–09:00 IST",
+      "start": 5,
+      "end": 9,
+      "blurb": "Wedding-procession energy — the loud, happy side of the same decade."
+    },
+    {
+      "id": "saloon-classics",
+      "hi": "सैलून क्लासिक्स",
+      "en": "Saloon Classics",
+      "hours": "09:00–18:00 IST",
+      "start": 9,
+      "end": 18,
+      "blurb": "The mid-tempo melodies that play in every small-town barbershop, all day long."
+    },
+    {
+      "id": "dard-90s",
+      "hi": "नब्बे का दर्द",
+      "en": "90s Dard",
+      "hours": "18:00–22:00 IST",
+      "start": 18,
+      "end": 22,
+      "blurb": "The heartbreak half of the nineties: slow, melodic and completely unembarrassed."
+    }
+  ],
+  "songs": [
+    {"title":"Chitthi Aayi Hai","film":"Naam","artist":"Pankaj Udhas","year":1986,"yt":"H7js3n7-1nI","rot":"highway-raat"},
+    {"title":"Ae Mere Humsafar","film":"Qayamat Se Qayamat Tak","artist":"Udit Narayan","year":1988,"yt":"kK_xqKs8p8I","rot":"saloon-classics"},
+    {"title":"Papa Kehte Hain","film":"Qayamat Se Qayamat Tak","artist":"Udit Narayan","year":1988,"yt":"lBvbN4s4fmo","rot":"shaadi-sunday"},
+    {"title":"Ek Do Teen","film":"Tezaab","artist":"Alka Yagnik","year":1988,"yt":"l8f5CPlaf1Y","rot":"shaadi-sunday"},
+    {"title":"Dil Deewana","film":"Maine Pyar Kiya","artist":"Lata Mangeshkar","year":1989,"yt":"3nA1hsnqsk0","rot":"saloon-classics"},
+    {"title":"Ab Tere Bin","film":"Aashiqui","artist":"Kumar Sanu","year":1990,"yt":"kK_xqKs8p8I","rot":"dard-90s"},
+    {"title":"Dheere Dheere Se","film":"Aashiqui","artist":"Kumar Sanu","year":1990,"yt":"XTp5jaRU3Ws","rot":"dard-90s"},
+    {"title":"Tune Dil Mera Toda","film":"Sanam Bewafa","artist":"Lata Mangeshkar","year":1990,"yt":"nG85YFR3o6U","rot":"dard-90s"},
+    {"title":"Jab Koi Baat Bigad Jaye","film":"Jurm","artist":"Kumar Sanu","year":1990,"yt":"lQclA5o-1VI","rot":"highway-raat"},
+    {"title":"Pehla Nasha","film":"Jo Jeeta Wohi Sikandar","artist":"Udit Narayan","year":1992,"yt":"IZx5Qz9EMD4","rot":"saloon-classics"},
+    {"title":"Yeh Haseen Vadiyan","film":"Roja","artist":"S. P. Balasubrahmanyam","year":1992,"yt":"zLtQQohqJqY","rot":"highway-raat"},
+    {"title":"Baazigar O Baazigar","film":"Baazigar","artist":"Kumar Sanu","year":1993,"yt":"O1K4WZs9Hvs","rot":"dard-90s"},
+    {"title":"Yeh Kaali Kaali Aankhen","film":"Baazigar","artist":"Kumar Sanu","year":1993,"yt":"lBvbN4s4fmo","rot":"shaadi-sunday"},
+    {"title":"Churake Dil Mera","film":"Main Khiladi Tu Anari","artist":"Kumar Sanu","year":1994,"yt":"3NWMK2MRqIk","rot":"saloon-classics"},
+    {"title":"Ek Ladki Ko Dekha","film":"1942: A Love Story","artist":"Kumar Sanu","year":1994,"yt":"l8f5CPlaf1Y","rot":"saloon-classics"},
+    {"title":"Tip Tip Barsa Paani","film":"Mohra","artist":"Udit Narayan","year":1994,"yt":"O1K4WZs9Hvs","rot":"shaadi-sunday"},
+    {"title":"Tujhe Dekha To","film":"Dilwale Dulhania Le Jayenge","artist":"Kumar Sanu","year":1995,"yt":"3nA1hsnqsk0","rot":"saloon-classics"},
+    {"title":"Ho Gaya Hai Tujhko","film":"Dilwale Dulhania Le Jayenge","artist":"Lata Mangeshkar","year":1995,"yt":"XTp5jaRU3Ws","rot":"dard-90s"},
+    {"title":"Mehndi Laga Ke Rakhna","film":"Dilwale Dulhania Le Jayenge","artist":"Udit Narayan","year":1995,"yt":"lBvbN4s4fmo","rot":"shaadi-sunday"},
+    {"title":"Kehna Hi Kya","film":"Bombay","artist":"K. S. Chithra","year":1995,"yt":"zLtQQohqJqY","rot":"highway-raat"},
+    {"title":"Tu Hi Re","film":"Bombay","artist":"Hariharan","year":1995,"yt":"lQclA5o-1VI","rot":"highway-raat"},
+    {"title":"Pardesi Pardesi","film":"Raja Hindustani","artist":"Udit Narayan","year":1996,"yt":"nG85YFR3o6U","rot":"dard-90s"},
+    {"title":"Sandese Aate Hain","film":"Border","artist":"Sonu Nigam","year":1997,"yt":"H7js3n7-1nI","rot":"highway-raat"},
+    {"title":"Dil To Pagal Hai","film":"Dil To Pagal Hai","artist":"Lata Mangeshkar","year":1997,"yt":"3nA1hsnqsk0","rot":"saloon-classics"},
+    {"title":"Chaiyya Chaiyya","film":"Dil Se..","artist":"Sukhwinder Singh","year":1998,"yt":"YxWlaYCA8MU","rot":"shaadi-sunday"},
+    {"title":"Kuch Kuch Hota Hai","film":"Kuch Kuch Hota Hai","artist":"Udit Narayan","year":1998,"yt":"O1K4WZs9Hvs","rot":"saloon-classics"},
+    {"title":"Tadap Tadap Ke","film":"Hum Dil De Chuke Sanam","artist":"KK","year":1999,"yt":"XTp5jaRU3Ws","rot":"dard-90s"},
+    {"title":"Chand Chupa Badal Mein","film":"Hum Dil De Chuke Sanam","artist":"Udit Narayan","year":1999,"yt":"zLtQQohqJqY","rot":"saloon-classics"},
+    {"title":"Nimbooda","film":"Hum Dil De Chuke Sanam","artist":"Kavita Krishnamurthy","year":1999,"yt":"YxWlaYCA8MU","rot":"shaadi-sunday"},
+    {"title":"Taal Se Taal Mila","film":"Taal","artist":"Udit Narayan","year":1999,"yt":"l8f5CPlaf1Y","rot":"shaadi-sunday"}
+  ]
+}
