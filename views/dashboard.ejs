@@ -1,0 +1,53 @@
+<%- include('partials/header') %>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">My Account</span>
+    <h1 class="page-title">Hello, <%= user.name %></h1>
+    <p class="page-lead"><%= user.email %></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="dash-stats">
+      <div class="dash-stat"><div class="dash-num"><%= saved.length %></div><div>Saved properties</div></div>
+      <div class="dash-stat"><div class="dash-num"><%= enquiries.length %></div><div>Enquiries</div></div>
+    </div>
+
+    <div class="section-head">
+      <div><h2 class="section-title">Saved Properties</h2></div>
+      <a href="/buy-plot" class="btn btn-outline btn-sm">Browse more</a>
+    </div>
+    <% if (saved.length === 0) { %>
+      <p class="empty">You haven’t saved any properties yet. Tap the ♡ on any listing to save it here.</p>
+    <% } else { %>
+      <div class="card-grid">
+        <% saved.forEach(function(p){ %>
+          <%- include('partials/property-card', { property: p }) %>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <div class="section-head" style="margin-top:48px">
+      <div><h2 class="section-title">Your Enquiries</h2></div>
+    </div>
+    <% if (enquiries.length === 0) { %>
+      <p class="empty">No enquiries yet. <a href="/contact">Send one to an advisor →</a></p>
+    <% } else { %>
+      <div class="enquiry-list">
+        <% enquiries.forEach(function(e){ %>
+          <div class="enquiry-item">
+            <div>
+              <strong><%= e.name %></strong>
+              <span class="muted"><%= new Date(e.createdAt).toLocaleString('en-IN') %></span>
+            </div>
+            <p><%= e.message %></p>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

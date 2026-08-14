@@ -1,0 +1,66 @@
+<%- include('partials/header') %>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Bhoomi Trust</span>
+    <h1 class="page-title"><%= heading %></h1>
+    <p class="page-lead"><%= blurb %></p>
+
+    <div class="type-pills" role="tablist" aria-label="Property type">
+      <a href="/buy-plot" class="pill <%= category==='plot'?'active':'' %>">Plots</a>
+      <a href="/buy-flat" class="pill <%= category==='flat'?'active':'' %>">Flats</a>
+      <a href="/villas" class="pill <%= category==='villa'?'active':'' %>">Villas</a>
+      <a href="/commercial" class="pill <%= category==='commercial'?'active':'' %>">Commercial</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="filters" id="filters">
+      <div class="filter-field">
+        <label for="filterSearch">Search</label>
+        <input type="text" id="filterSearch" placeholder="City, project or locality" />
+      </div>
+      <div class="filter-field">
+        <label for="filterCity">City</label>
+        <select id="filterCity">
+          <option value="">All cities</option>
+          <% cities.forEach(function(c){ %><option value="<%= c %>"><%= c %></option><% }) %>
+        </select>
+      </div>
+      <div class="filter-field">
+        <label for="filterBudget">Budget</label>
+        <select id="filterBudget">
+          <option value="">Any budget</option>
+          <option value="10000000">≤ ₹1 Cr</option>
+          <option value="20000000">≤ ₹2 Cr</option>
+          <option value="50000000">≤ ₹5 Cr</option>
+          <option value="100000000">≤ ₹10 Cr</option>
+        </select>
+      </div>
+      <div class="filter-field">
+        <label for="filterSort">Sort by</label>
+        <select id="filterSort">
+          <option value="featured">Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="area-desc">Area: Largest</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="result-count" id="resultCount"><%= properties.length %> verified properties</p>
+
+    <div class="card-grid" id="propertyGrid">
+      <% if (properties.length === 0) { %>
+        <p class="empty">No properties match your filters yet.</p>
+      <% } %>
+      <% properties.forEach(function(p){ %>
+        <%- include('partials/property-card', { property: p }) %>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,30 @@
+<%- include('partials/header') %>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Insights</span>
+    <h1 class="page-title">The Bhoomi Journal</h1>
+    <p class="page-lead">Guides, explainers and market insights to help you buy verified property with confidence.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="card-grid">
+      <% posts.forEach(function(post){ %>
+        <a class="card blog-card" href="/blog/<%= post.slug %>">
+          <div class="card-media">
+            <img src="<%= post.cover %>" alt="<%= post.title %>" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div class="card-loc"><%= new Date(post.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %> · <%= post.author %></div>
+            <h3 class="card-title"><%= post.title %></h3>
+            <p class="card-excerpt"><%= post.excerpt %></p>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
