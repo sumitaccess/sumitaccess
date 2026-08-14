@@ -118,3 +118,9 @@ Recommended production services:
 ## License
 
 This project is an original product concept for local delivery. Add the project license before public production use.
+## Other project
+
+### [Next Dashboard](https://github.com/sumitaccess/next-dashboard)
+
+A Next.js App Router dashboard starter built with React, TypeScript, Tailwind CSS and PostgreSQL-ready integrations.
+
