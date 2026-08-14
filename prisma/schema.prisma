@@ -1,0 +1,543 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  MERCHANT
+  RIDER
+  ADMIN
+}
+
+enum BusinessType {
+  RESTAURANT
+  HOME_KITCHEN
+  GROCERY
+  LOCAL_SHOP
+  BAKERY
+  PHARMACY
+}
+
+enum VerificationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum OrderStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  PREPARING
+  READY_FOR_PICKUP
+  DELIVERY_ASSIGNED
+  PICKED_UP
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  COD
+  UPI
+  CARD
+  NET_BANKING
+  WALLET
+}
+
+enum PaymentStatus {
+  PENDING
+  AUTHORIZED
+  CAPTURED
+  FAILED
+  REFUNDED
+}
+
+enum AssignmentStatus {
+  OFFERED
+  ACCEPTED
+  REJECTED
+  EXPIRED
+  PICKED_UP
+  COMPLETED
+  CANCELLED
+}
+
+enum ReviewTarget {
+  BUSINESS
+  DELIVERY_PARTNER
+}
+
+enum NotificationType {
+  ORDER
+  DELIVERY
+  PAYMENT
+  PROMOTION
+  SYSTEM
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+model User {
+  id                String          @id @default(cuid())
+  phone             String?         @unique
+  email             String?         @unique
+  passwordHash      String?
+  name              String
+  photoUrl          String?
+  role              Role            @default(CUSTOMER)
+  locale            String          @default("en-IN")
+  isActive          Boolean         @default(true)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  addresses         Address[]
+  ownedBusinesses   Business[]      @relation("BusinessOwner")
+  deliveryPartner   DeliveryPartner?
+  customerOrders    Order[]         @relation("CustomerOrders")
+  reviews           Review[]        @relation("CustomerReviews")
+  favorites         Favorite[]
+  notifications     Notification[]
+  sentMessages      Message[]       @relation("MessageSender")
+  supportTickets    SupportTicket[] @relation("TicketCustomer")
+  auditLogs         AuditLog[]      @relation("AuditActor")
+  couponUsages      CouponUsage[]
+
+  @@index([role, isActive])
+}
+
+model Address {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label          String
+  houseNumber    String?
+  village        String
+  landmark       String?
+  directions     String?
+  latitude       Float
+  longitude      Float
+  isDefault      Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  orders         Order[]
+
+  @@index([userId, isDefault])
+  @@index([latitude, longitude])
+}
+
+model Business {
+  id                    String             @id @default(cuid())
+  ownerId               String
+  owner                 User               @relation("BusinessOwner", fields: [ownerId], references: [id])
+  name                  String
+  type                  BusinessType
+  description           String?
+  phone                 String?
+  coverImageUrl         String?
+  logoUrl               String?
+  address               String
+  village               String
+  latitude              Float
+  longitude             Float
+  deliveryRadiusKm      Float              @default(5)
+  minimumOrderPaise     Int                @default(0)
+  deliveryFeePaise      Int                @default(2000)
+  openAt                String?
+  closeAt               String?
+  isOpen                Boolean            @default(false)
+  verificationStatus    VerificationStatus @default(PENDING)
+  isPublic              Boolean            @default(false)
+  holidays              Json?
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  documents             BusinessDocument[]
+  menuCategories        MenuCategory[]
+  menuItems             MenuItem[]
+  orders                Order[]
+  reviews               Review[]
+  favorites             Favorite[]
+
+  @@index([village, isPublic, verificationStatus])
+  @@index([latitude, longitude])
+}
+
+model BusinessDocument {
+  id          String             @id @default(cuid())
+  businessId  String
+  business    Business           @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  documentType String
+  storageKey  String
+  status      VerificationStatus @default(PENDING)
+  reviewedBy  String?
+  reviewedAt  DateTime?
+  createdAt   DateTime           @default(now())
+
+  @@index([businessId, status])
+}
+
+model MenuCategory {
+  id          String     @id @default(cuid())
+  businessId  String
+  business    Business   @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  name        String
+  sortOrder   Int        @default(0)
+  isActive    Boolean    @default(true)
+  items       MenuItem[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@unique([businessId, name])
+  @@index([businessId, sortOrder])
+}
+
+model MenuItem {
+  id             String       @id @default(cuid())
+  businessId     String
+  business       Business     @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  categoryId     String
+  category       MenuCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  name           String
+  description    String?
+  imageUrl       String?
+  pricePaise     Int
+  isVeg          Boolean      @default(true)
+  isAvailable    Boolean      @default(true)
+  isCustomizable Boolean      @default(false)
+  options        Json?
+  sortOrder      Int          @default(0)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  orderItems     OrderItem[]
+  favorites      Favorite[]
+
+  @@index([businessId, isAvailable])
+  @@index([categoryId, sortOrder])
+}
+
+model Order {
+  id                 String              @id @default(cuid())
+  customerId         String
+  customer           User                @relation("CustomerOrders", fields: [customerId], references: [id])
+  businessId         String
+  business           Business            @relation(fields: [businessId], references: [id])
+  addressId          String?
+  address            Address?            @relation(fields: [addressId], references: [id], onDelete: SetNull)
+  status             OrderStatus         @default(PENDING)
+  subtotalPaise      Int
+  deliveryFeePaise   Int
+  platformFeePaise   Int
+  taxPaise           Int                 @default(0)
+  discountPaise      Int                 @default(0)
+  totalPaise         Int
+  currency           String              @default("INR")
+  paymentMethod      PaymentMethod
+  cancellationReason String?
+  placedAt           DateTime            @default(now())
+  acceptedAt         DateTime?
+  deliveredAt        DateTime?
+  cancelledAt        DateTime?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  items              OrderItem[]
+  statusHistory      OrderStatusHistory[]
+  payment            Payment?
+  refund             Refund?
+  deliveryAssignment DeliveryAssignment?
+  reviews            Review[]
+  conversation       Conversation?
+  couponUsages       CouponUsage[]
+  supportTickets     SupportTicket[]
+
+  @@index([customerId, createdAt])
+  @@index([businessId, status, createdAt])
+  @@index([status, createdAt])
+}
+
+model OrderItem {
+  id             String   @id @default(cuid())
+  orderId        String
+  order          Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItemId     String
+  menuItem       MenuItem @relation(fields: [menuItemId], references: [id])
+  nameSnapshot   String
+  unitPricePaise Int
+  quantity       Int
+  customizations Json?
+  instructions   String?
+  createdAt      DateTime @default(now())
+
+  @@index([orderId])
+}
+
+model OrderStatusHistory {
+  id        String      @id @default(cuid())
+  orderId   String
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    OrderStatus
+  changedBy String?
+  note      String?
+  createdAt DateTime    @default(now())
+
+  @@index([orderId, createdAt])
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  orderId           String        @unique
+  order             Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  method            PaymentMethod
+  status            PaymentStatus @default(PENDING)
+  provider          String?
+  providerOrderId   String?
+  providerPaymentId String?
+  amountPaise       Int
+  failureReason     String?
+  capturedAt        DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([status, createdAt])
+}
+
+model Refund {
+  id              String        @id @default(cuid())
+  orderId         String        @unique
+  order           Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  amountPaise     Int
+  status          PaymentStatus @default(PENDING)
+  providerRefundId String?
+  reason          String?
+  createdAt       DateTime      @default(now())
+  completedAt     DateTime?
+}
+
+model DeliveryPartner {
+  id              String               @id @default(cuid())
+  userId          String               @unique
+  user            User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isOnline        Boolean              @default(false)
+  isApproved      Boolean              @default(false)
+  verificationStatus VerificationStatus @default(PENDING)
+  rating          Float                @default(0)
+  totalDeliveries Int                  @default(0)
+  vehicle         Vehicle?
+  assignments     DeliveryAssignment[]
+  locations       DeliveryLocation[]
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+
+  @@index([isOnline, isApproved])
+}
+
+model Vehicle {
+  id                String          @id @default(cuid())
+  deliveryPartnerId String          @unique
+  deliveryPartner   DeliveryPartner @relation(fields: [deliveryPartnerId], references: [id], onDelete: Cascade)
+  type              String
+  make              String?
+  registration      String?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+model DeliveryAssignment {
+  id             String           @id @default(cuid())
+  orderId        String           @unique
+  order          Order            @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  partnerId      String
+  partner        DeliveryPartner @relation(fields: [partnerId], references: [id])
+  status         AssignmentStatus @default(OFFERED)
+  offeredAt      DateTime         @default(now())
+  acceptedAt     DateTime?
+  pickedUpAt     DateTime?
+  completedAt    DateTime?
+  expiresAt      DateTime?
+  locations      DeliveryLocation[]
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@index([partnerId, status])
+}
+
+model DeliveryLocation {
+  id           String              @id @default(cuid())
+  assignmentId String
+  assignment   DeliveryAssignment  @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  partnerId    String
+  partner      DeliveryPartner     @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  latitude     Float
+  longitude    Float
+  accuracyM    Float?
+  recordedAt   DateTime            @default(now())
+
+  @@index([assignmentId, recordedAt])
+  @@index([partnerId, recordedAt])
+}
+
+model Review {
+  id               String          @id @default(cuid())
+  orderId          String
+  order            Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  customerId       String
+  customer         User            @relation("CustomerReviews", fields: [customerId], references: [id])
+  businessId       String?
+  business         Business?       @relation(fields: [businessId], references: [id])
+  deliveryPartnerId String?
+  deliveryPartner  DeliveryPartner? @relation(fields: [deliveryPartnerId], references: [id])
+  target           ReviewTarget
+  rating           Int
+  comment          String?
+  isPublished      Boolean         @default(true)
+  createdAt        DateTime        @default(now())
+
+  @@unique([orderId, customerId, target])
+  @@index([businessId, isPublished, createdAt])
+  @@index([deliveryPartnerId, isPublished, createdAt])
+}
+
+model Favorite {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  businessId String?
+  business   Business? @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  menuItemId String?
+  menuItem   MenuItem? @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+
+  @@unique([userId, businessId, menuItemId])
+  @@index([userId, createdAt])
+}
+
+model Coupon {
+  id                 String        @id @default(cuid())
+  code               String        @unique
+  description        String?
+  discountType       String
+  discountValue      Int
+  maxDiscountPaise   Int?
+  minimumOrderPaise  Int           @default(0)
+  startsAt           DateTime      @default(now())
+  expiresAt          DateTime
+  usageLimit         Int?
+  perUserLimit       Int           @default(1)
+  isActive           Boolean       @default(true)
+  usages             CouponUsage[]
+  createdAt          DateTime      @default(now())
+}
+
+model CouponUsage {
+  id         String   @id @default(cuid())
+  couponId   String
+  coupon     Coupon   @relation(fields: [couponId], references: [id])
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  usedAt     DateTime @default(now())
+
+  @@unique([couponId, orderId])
+  @@index([couponId, userId])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  body      String
+  data      Json?
+  readAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  @@index([userId, readAt, createdAt])
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  orderId   String    @unique
+  order     Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  messages  Message[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String
+  sender         User         @relation("MessageSender", fields: [senderId], references: [id])
+  body           String
+  sentAt         DateTime     @default(now())
+  readAt         DateTime?
+
+  @@index([conversationId, sentAt])
+}
+
+model SupportTicket {
+  id         String       @id @default(cuid())
+  customerId String
+  customer   User         @relation("TicketCustomer", fields: [customerId], references: [id])
+  orderId    String?
+  order      Order?       @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  topic      String
+  message    String
+  status     TicketStatus @default(OPEN)
+  assignedTo String?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  @@index([status, createdAt])
+  @@index([customerId, createdAt])
+}
+
+model PricingRule {
+  id                  String   @id @default(cuid())
+  minDistanceKm       Float
+  maxDistanceKm       Float
+  baseFeePaise        Int
+  perKmFeePaise       Int      @default(0)
+  peakFeePaise        Int      @default(0)
+  freeDeliveryPaise   Int?
+  maxDistanceAllowed  Float?
+  isActive            Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([isActive, minDistanceKm])
+}
+
+model PlatformSetting {
+  key       String   @id
+  value     Json
+  updatedBy String?
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actor      User?    @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+  action     String
+  entityType String
+  entityId   String
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId, createdAt])
+  @@index([actorId, createdAt])
+}
